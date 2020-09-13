@@ -48,4 +48,17 @@ public class ScraperController {
     public ScrapeJob createScrapeJob(@RequestBody String url) throws ScrapeException {
           return getScrapeService().createScrapeJob(url);
     }
+
+    @DeleteMapping(path = "/job/{id}", produces = "application/json")
+    @ResponseBody
+    public void deleteJob(@PathVariable("id") final String jobId) {
+        try {
+             getScrapeService().deleteScrapeJob(jobId);
+        } catch (ScrapeException e) {
+            /*
+             * Add exception handler and send an apt 400.html to REST client
+             */
+            e.printStackTrace();
+        }
+    }
 }

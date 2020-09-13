@@ -1,0 +1,38 @@
+* { 
+	font-family: Verdana; 
+	font-size: 11px; 
+	color: #444; 
+}
+
+table, th, td {
+  border: 1px solid #888;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 5px;
+}
+
+#list {
+	margin-bottom: 20px;
+}
+
+#newUrl {
+	width: 300px;
+}
+
+.hidden {
+	display: none;
+}
+
+#mainLeft {
+  float: left;
+  width: 70%;
+}
+
+#mainRight {
+  float: left;
+  align: middle;
+  width: 30%;
+}
+

@@ -38,14 +38,24 @@ import java.util.Optional;
         return job;
     }
 
+    /*
+     * List all available scrape jobs - pending or completed
+     */
     @Override public List<ScrapeJob> getScrapeJobs() {
         return getScrapeDb().findAll();
     }
 
-    public void deleteScrapeJob(final String id)  {
+    /*
+     * Delete specified  scrape job - pending or completed
+     * TODO: delete completable future also
+     */
+    @Override public void deleteScrapeJob(final String id)  {
          getScrapeDb().deleteById(id);
     }
 
+    /*
+     * Fetch tge current result of the specified  scrape job - pending or completed
+     */
     @Override public ScrapeData getScrapeResults(final String id)  {
         final Optional<ScrapeJob> job = getScrapeDb().findById(id);
         ScrapeJob theJob = job.orElse(null);
@@ -53,14 +63,14 @@ import java.util.Optional;
     }
 
     @PostConstruct public void initialize() {
-        ScrapeJob[] jobs = new ScrapeJob[]{
-                new ScrapeJob(null, "http://cnn.com"),
-                new ScrapeJob(null, "https://www.cisco.com"),
-                new ScrapeJob(null, "https://tomcat.org")
-        };
-
-        for (final ScrapeJob job : jobs) {
-                getScrapeDb().save(job);
-        }
+//        ScrapeJob[] jobs = new ScrapeJob[]{
+//                new ScrapeJob(null, "http://cnn.com"),
+//                new ScrapeJob(null, "https://www.cisco.com"),
+//                new ScrapeJob(null, "https://tomcat.org")
+//        };
+//
+//        for (final ScrapeJob job : jobs) {
+//                getScrapeDb().save(job);
+//        }
     }
 }
