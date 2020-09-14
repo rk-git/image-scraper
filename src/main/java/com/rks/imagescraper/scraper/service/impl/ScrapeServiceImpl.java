@@ -83,6 +83,7 @@ import java.util.stream.Collectors;
         CompletableFuture<Void> bgScanTask = CompletableFuture.runAsync(bgScan);
         final ScrapeJob updatedJob = getJobByUrl(job.getUrl());
         getBgJobs().put(updatedJob.getId(), bgScanTask);
+        bgScanTask.join();
     }
 
     /*

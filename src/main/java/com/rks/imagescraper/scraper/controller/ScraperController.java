@@ -49,6 +49,9 @@ public class ScraperController {
 
     @PostMapping(path = "/job", consumes = "application/json", produces = "application/json")
     public ScrapeJob createScrapeJob(@RequestBody String url) throws ScrapeException {
+          // if prefix url= is present, strip it off
+          if (url.trim().startsWith(("url=")))
+              url = url.substring("url=".length());
           return getScrapeService().createScrapeJob(url);
     }
 
