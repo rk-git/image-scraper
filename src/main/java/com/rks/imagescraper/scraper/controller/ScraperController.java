@@ -9,13 +9,16 @@ package com.rks.imagescraper.scraper.controller;
  * @version 1.0
  * @since 1.0
  */
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.rks.imagescraper.scraper.service.IScrapeService;
+import com.rks.imagescraper.scraper.service.exception.DuplicateScrapeJobException;
 import com.rks.imagescraper.scraper.service.exception.ScrapeException;
 import com.rks.imagescraper.scraper.service.model.ScrapeData;
 import com.rks.imagescraper.scraper.service.model.ScrapeJob;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -61,4 +64,13 @@ public class ScraperController {
             e.printStackTrace();
         }
     }
+
+    /*
+     * Error handler methods
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Specified Scrape Job exists (per URL)")
+    void onDuplicateScrapeUrl(final DuplicateScrapeJobException exception) {}
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Specified Scrape URL is invalid")
+    void onBadUrlEception(final MalformedURLException exception) {}
 }

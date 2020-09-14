@@ -25,40 +25,10 @@ import java.util.List;
 public interface IScrapeDao extends MongoRepository<ScrapeJob, String> {
 
     /*
-     * Save a new scraper job for the specified URL
+     * Find if a job with given URL exists
      *
-     * @param scraper job - the scraper job
-     * @returns the scrape job id -
-     *  @exception - if the save fails
+     * @param url - the scraper job URL
+     * @returns the scrape job
      */
-    //public Long save(final ScrapeJob job) throws ScrapeException;
-
-    /*
-     * Retrieve all  scraper jobs
-     *
-     * @param None
-     * @returns the list of scrape jobs
-     *
-     */
-    //public List<ScrapeJob> list() ;
-
-    /*
-     * Retrieve specified  scraper job with result
-     *
-     * @param job id
-     * @returns the full result
-     *
-     */
-    //public ScrapeJob get(final String id) ;
-
-
-    /*
-     * Delete specified  scraper job
-     *
-     * @param id
-     * @returns None
-     * @exception if it fails to delete or if the job does not exist
-     *
-     */
-    //public void delete(final String jobId) throws ScrapeException;
+    public ScrapeJob getJobByUrl(final String url);
 }

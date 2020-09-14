@@ -1,7 +1,7 @@
 package com.rks.imagescraper.scraper.service.exception;
 
 /*
- * This interface models the exception used by scraper service to denite
+ * This class models the exception used by scraper service to denite
  * an error to the end user interface. The message contains the error.
  *
  * @rks

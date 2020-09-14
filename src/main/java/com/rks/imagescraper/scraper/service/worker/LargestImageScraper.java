@@ -11,7 +11,7 @@ package com.rks.imagescraper.scraper.service.worker;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.function.Supplier;
+import java.util.Date;
 
 import com.rks.imagescraper.scraper.service.model.ScrapeJob;
 import com.rks.imagescraper.scraper.service.persistence.IScrapeDao;
@@ -22,7 +22,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class LargestImageScraper implements Runnable { //Supplier<byte[]> {
+public class LargestImageScraper implements Runnable {
 
     private ScrapeJob job;
     public ScrapeJob getJob() {
@@ -60,6 +60,15 @@ public class LargestImageScraper implements Runnable { //Supplier<byte[]> {
      * @return void
      */
     public void scan_images() {
+        System.out.println("Start background task: " + Thread.currentThread().getName() + Thread.currentThread().getId() + " "
+                + (Thread.currentThread().isDaemon() ? "isDaemon":"isNotDaemon"));
+
+        /*
+         * Update the job status in DB
+         */
+        getJob().setStatus(ScrapeJob.Status.statusSTARTED);
+        getDao().save(getJob());
+
         byte[] largest_image = null;
         try {
             Document document =
@@ -87,10 +96,20 @@ public class LargestImageScraper implements Runnable { //Supplier<byte[]> {
                  */
                 saveCandidateImage(largest_image);
             }
+            /*
+             * Update the job completion status and end time in DB
+             */
+            getJob().setStatus(ScrapeJob.Status.statusCOMPLETED);
+            getJob().setEndTime(new Date().toString());
+            getDao().save(getJob());
         } catch (IOException e) {
             e.printStackTrace();
+            getJob().setStatus(ScrapeJob.Status.statusABORTED);
+            getJob().setEndTime(new Date().toString());
+            getDao().save(getJob());
         } finally {
             //
+            // TODO: MEMORY LEAK : Clean up the bgScanTask from roster of bg tasks
         }
 
         return;

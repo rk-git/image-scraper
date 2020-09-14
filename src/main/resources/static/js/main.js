@@ -62,7 +62,11 @@ _getDetails = function(id) {
     $.ajax({
         url: jobUrl
     }).done(function(data) {
-        _showImage(data.image, data.mime);
+        if (data.image)
+           _showImage(data.image, data.mime);
+        else
+           _showMsg("No image available!");
+           
     }).fail(function(data) {
         _showMsg(data.status + " " + data.error);
     });
@@ -89,11 +93,11 @@ _deleteJob = function(id) {
         url: urls.deleteJob + "/" + id,
         method: "DELETE"
     }).done(function(data) {
-        _showMsg("Job deleted!");        
+        //_showMsg("Job deleted!");        
+        _refreshList();
     }).fail(function(data) {
         _showMsg(data.status + " " + data.error);
     });
-    _refreshList();
 };
 
 _createJob = function() {
@@ -117,12 +121,11 @@ _createJob = function() {
         	url: jobUrl
         }
     }).done(function(data) {
-        #_showMsg("Job created!");        
+        //_showMsg("Job created!");        
         _refreshList();
     }).fail(function(data) {
         _showMsg(data.status + " " + data.error);
     });
-    _refreshList();
 };
 
 _showMsg = function(msg) {
